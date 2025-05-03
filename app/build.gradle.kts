@@ -2,6 +2,7 @@ plugins {
     checkstyle
     id("org.sonarqube") version "6.0.1.5171"
     application
+    jacoco
 }
 
 group = "hexlet.code"
@@ -31,3 +32,5 @@ application {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.jacocoTestReport { reports { xml.required.set(true) } }

@@ -17,6 +17,7 @@ jobs:
           gradle-version: 8.12
           build-root-directory: app
       - run: make -C app build
+      - run: make -C app report
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
