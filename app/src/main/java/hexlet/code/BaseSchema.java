@@ -1,15 +1,15 @@
 package hexlet.code;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    List<Predicate<T>> rules = new ArrayList<>();
+    Map<String, Predicate<T>> rules = new HashMap<>();
 
     public boolean isValid(T value) {
         var check = true;
-        for (var rule : rules) {
+        for (var rule : rules.values()) {
             if (!rule.test(value)) {
                 check = false;
                 return check;
