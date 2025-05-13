@@ -83,6 +83,9 @@ public class ValidatorTest {
         data.put("key2", "value2");
         actual = schema.isValid(data);
         assertTrue(actual);
+        schema.sizeof(3);
+        actual = schema.isValid(data);
+        assertFalse(actual);
         var schema2 = v.map();
         actual = schema2.required().sizeof(3).isValid(data);
         assertFalse(actual);
