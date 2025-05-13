@@ -1,39 +1,61 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ValidatorTest {
     @Test
     public void testStringValidator() {
         var v = new Validator();
-        Schema schema = v.string();
-        var expected = true;
+        StringSchema schema = v.string();
         var actual = schema.isValid("");
-        assertEquals(expected, actual);
+        assertTrue(actual);
         schema.required();
-        expected = false;
         actual = schema.isValid(null);
-        assertEquals(expected, actual);
-        expected = true;
+        assertFalse(actual);
         actual = schema.isValid("hexlet");
-        assertEquals(expected, actual);
+        assertTrue(actual);
         schema.minLength(5);
-        expected = true;
         actual = schema.isValid("hexlet");
-        assertEquals(expected, actual);
-        expected = false;
+        assertTrue(actual);
         actual = schema.isValid("aa");
-        assertEquals(expected, actual);
+        assertFalse(actual);
         schema.contains("ex");
-        expected = true;
         actual = schema.isValid("hexlet");
-        assertEquals(expected, actual);
-        expected = false;
+        assertTrue(actual);
         actual = schema.isValid("aa");
-        assertEquals(expected, actual);
+        assertFalse(actual);
         schema.required().minLength(3).contains("hex");
-        expected = true;
         actual = schema.isValid("hexlet");
+        assertTrue(actual);
+    }
+
+    @Test
+    public void testNumberValidator() {
+        var v = new Validator();
+        var schema = v.number();
+        var actual = schema.isValid(5);
+        assertTrue(actual);
+        actual = schema.isValid(null);
+        assertTrue(actual);
+        actual = schema.positive().isValid(null);
+        assertTrue(actual);
+        schema.required();
+        actual = schema.isValid(null);
+        assertFalse(actual);
+        actual = schema.isValid(-10);
+        assertFalse(actual);
+        actual = schema.isValid(0);
+        assertFalse(actual);
+        schema.range(5, 10);
+        actual = schema.isValid(5);
+        assertTrue(actual);
+        actual = schema.isValid(10);
+        assertTrue(actual);
+        actual = schema.isValid(3);
+        assertFalse(actual);
+        actual = schema.isValid(14);
+        assertFalse(actual);
     }
 }
