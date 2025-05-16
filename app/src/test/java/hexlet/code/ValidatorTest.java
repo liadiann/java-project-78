@@ -3,6 +3,7 @@ package hexlet.code;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -65,7 +66,7 @@ public class ValidatorTest {
     @Test
     public void testMapValidator() {
         var v = new Validator();
-        var schema = v.map();
+        var schema = v.<String, String>map();
         var actual = schema.isValid(null);
         assertTrue(actual);
         schema.required();
@@ -86,8 +87,43 @@ public class ValidatorTest {
         schema.sizeof(3);
         actual = schema.isValid(data);
         assertFalse(actual);
-        var schema2 = v.map();
+        var schema2 = v.<String, String>map();
         actual = schema2.required().sizeof(3).isValid(data);
+        assertFalse(actual);
+    }
+
+    @Test
+    public void testMapValues() {
+        var v = new Validator();
+        var schema = v.<String, String>map();
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("firstName", v.string().required());
+        schemas.put("lastName", v.string().required().minLength(2));
+        schema.shape(schemas);
+        Map<String, String> human1 = new HashMap<>();
+        human1.put("firstName", "John");
+        human1.put("lastName", "Smith");
+        var actual = schema.isValid(human1);
+        assertTrue(actual);
+        Map<String, String> human2 = new HashMap<>();
+        human2.put("firstName", "John");
+        human2.put("lastName", null);
+        actual = schema.isValid(human2);
+        assertFalse(actual);
+        Map<String, String> human3 = new HashMap<>();
+        human3.put("firstName", "Anne");
+        human3.put("lastName", "S");
+        actual = schema.isValid(human3);
+        assertFalse(actual);
+        var schema2 = v.<String, Integer>map();
+        Map<String, BaseSchema<Integer>> schemas2 = new HashMap<>();
+        schemas2.put("department", v.number().required());
+        schemas2.put("salary", v.number().required().range(20000, 40000));
+        schema2.shape(schemas2);
+        Map<String, Integer> human4 = new HashMap<>();
+        human4.put("department", 30000);
+        human4.put("salary", 50000);
+        actual = schema2.isValid(human4);
         assertFalse(actual);
     }
 }
