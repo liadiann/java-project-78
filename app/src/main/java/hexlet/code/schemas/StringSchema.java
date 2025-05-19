@@ -8,12 +8,12 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema minLength(int min) {
-        rules.put("minLength", (s) -> (s != null && s.length() >= min));
+        rules.put("minLength", (s) -> (s == null || s.length() >= min));
         return this;
     }
 
     public StringSchema contains(String subStr) {
-        rules.put("contains", (s) -> (s != null && s.contains(subStr)));
+        rules.put("contains", (s) -> (s == null || s.contains(subStr)));
         return this;
     }
 }

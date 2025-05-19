@@ -15,7 +15,7 @@ public class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema range(int min, int max) {
-        rules.put("range", i -> (i >= min && i <= max));
+        rules.put("range", i -> (i == null || (i >= min && i <= max)));
         return this;
     }
 }

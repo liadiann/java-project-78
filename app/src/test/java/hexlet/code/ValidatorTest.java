@@ -68,7 +68,7 @@ public class ValidatorTest {
     @Test
     public void testMapValidator() {
         var v = new Validator();
-        var schema = v.<String, String>map();
+        var schema = v.map();
         var actual = schema.isValid(null);
         assertTrue(actual);
         schema.required();
@@ -89,7 +89,7 @@ public class ValidatorTest {
         schema.sizeof(3);
         actual = schema.isValid(data);
         assertFalse(actual);
-        var schema2 = v.<String, String>map();
+        var schema2 = v.map();
         actual = schema2.required().sizeof(3).isValid(data);
         assertFalse(actual);
     }
@@ -97,7 +97,7 @@ public class ValidatorTest {
     @Test
     public void testMapValues() {
         var v = new Validator();
-        var schema = v.<String, String>map();
+        var schema = v.map();
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
         schemas.put("firstName", v.string().required());
         schemas.put("lastName", v.string().required().minLength(2));
@@ -117,7 +117,7 @@ public class ValidatorTest {
         human3.put("lastName", "S");
         actual = schema.isValid(human3);
         assertFalse(actual);
-        var schema2 = v.<String, Integer>map();
+        var schema2 = v.map();
         Map<String, BaseSchema<Integer>> schemas2 = new HashMap<>();
         schemas2.put("department", v.number().required());
         schemas2.put("salary", v.number().required().range(20000, 40000));
