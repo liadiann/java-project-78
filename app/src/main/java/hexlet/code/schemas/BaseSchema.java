@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class BaseSchema<T> {
     private Map<String, Predicate<T>> rules = new HashMap<>();
 
-    public void addRules(String rule, Predicate<T> check) {
+    public final void addRules(String rule, Predicate<T> check) {
         rules.put(rule, check);
     }
 
