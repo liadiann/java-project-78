@@ -5,7 +5,11 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class BaseSchema<T> {
-    public Map<String, Predicate<T>> rules = new HashMap<>();
+    private Map<String, Predicate<T>> rules = new HashMap<>();
+
+    public void addRules(String rule, Predicate<T> check) {
+        rules.put(rule, check);
+    }
 
     public final boolean isValid(T value) {
         var check = true;

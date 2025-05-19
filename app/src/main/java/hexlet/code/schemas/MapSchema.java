@@ -6,18 +6,18 @@ import java.util.Objects;
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
 
     public MapSchema required() {
-        rules.put("required", Objects::nonNull);
+        addRules("required", Objects::nonNull);
         return this;
     }
 
     public MapSchema sizeof(int capacity) {
-        rules.put("sizeof", m -> m.size() == capacity);
+        addRules("sizeof", m -> m.size() == capacity);
         return this;
     }
 
     @SuppressWarnings("unchecked")
     public <V> void shape(Map<?, BaseSchema<V>> schemas) {
-        rules.put("shape", m -> {
+        addRules("shape", m -> {
             var check = true;
             for (var entry : schemas.entrySet()) {
                 var value = m.get(entry.getKey());
