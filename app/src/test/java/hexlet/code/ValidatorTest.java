@@ -17,8 +17,12 @@ public class ValidatorTest {
         StringSchema schema = v.string();
         var actual = schema.isValid("");
         assertTrue(actual);
+        actual = schema.isValid(null);
+        assertTrue(actual);
         schema.required();
         actual = schema.isValid(null);
+        assertFalse(actual);
+        actual = schema.isValid("");
         assertFalse(actual);
         actual = schema.isValid("hexlet");
         assertTrue(actual);
@@ -35,6 +39,9 @@ public class ValidatorTest {
         schema.required().minLength(3).contains("hex");
         actual = schema.isValid("hexlet");
         assertTrue(actual);
+        schema.minLength(10).contains("he");
+        actual = schema.isValid("hexlet");
+        assertFalse(actual);
     }
 
     @Test

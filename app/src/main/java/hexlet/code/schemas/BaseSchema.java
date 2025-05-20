@@ -11,8 +11,16 @@ public class BaseSchema<T> {
         rules.put(rule, check);
     }
 
+    public final boolean isNullValid() {
+        return !rules.containsKey("required");
+    }
+
     public final boolean isValid(T value) {
         var check = true;
+        if (value == null) {
+            check = isNullValid();
+            return check;
+        }
         for (var rule : rules.values()) {
             if (!rule.test(value)) {
                 check = false;
